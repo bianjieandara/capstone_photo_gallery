@@ -16,9 +16,9 @@ group :development do
 end
 
 group :development, :test do
-  gem 'webrick'
+  gem 'webrick', :platforms=>[:mingw, :mswin, :x64_mingw, :jruby]
   gem 'tzinfo-data', :platforms=>[:mingw, :mswin, :x64_mingw, :jruby]
-  gem 'sqlite3', '~>1.3', '>=1.3.12'
+  gem 'sqlite3'
   gem 'byebug', '~>9.0', '>=9.0.6'
   gem 'httparty', '~>0.14', '>=0.14.0'
   gem 'rspec-rails', '~> 3.5', '>=3.5.2'
@@ -28,8 +28,8 @@ group :production do
   gem 'rails_12factor', '~>0.0', '>= 0.0.3'
 end
 
-gem 'pg', '~>0.19', '>=0.19.0'
-gem 'puma', '~>3.6', '>=3.6.0'
+gem 'pg', '0.19'
+gem 'puma', '~>3.6', '>=3.6.0', :platforms=>:ruby
 gem 'mongoid', '~>5.1', '>=5.1.5'
 
 source 'https://rails-assets.org' do
