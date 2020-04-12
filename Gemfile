@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.10'
 gem 'rails-api', '~>0.4', '>=0.4.0'
-gem 'rack-cors', '~>0.4', '>=0.4.0', :require => 'rack/cors'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'sass-rails', '~> 5.0', '>=3.4.22'
 gem 'uglifier', '~> 3.0', '>=3.0.2'
 gem 'coffee-rails', '~> 4.1', '>= 4.1.0'
