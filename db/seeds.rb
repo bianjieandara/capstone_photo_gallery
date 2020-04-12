@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+City.all.destroy_all
+State.all.destroy_all
+
+cities = ["Miami", "Baltimore", "Seattle", "Los Angeles","Orlando"]
+states = ["Florida", "Maryland", "Georgia", "California","Arizona"]
+
+cities.each {|city| City.create(name: "#{city}")}
+states.each {|state| State.create(name: "#{state}")}
