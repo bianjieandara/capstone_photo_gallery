@@ -9,7 +9,6 @@ gem 'uglifier', '~> 3.0', '>=3.0.2'
 gem 'coffee-rails', '~> 4.1', '>= 4.1.0'
 gem 'jquery-rails', '~>4.2', '>=4.2.1'
 gem 'jbuilder', '~> 2.0', '>=2.6.0'
-gem 'bundler', '1.17.2' 
 
 group :development do
   gem 'spring', '~>2.0', '>=2.0.0'
