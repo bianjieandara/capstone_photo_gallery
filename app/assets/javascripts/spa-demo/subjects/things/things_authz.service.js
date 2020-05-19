@@ -32,6 +32,16 @@
     ThingsAuthz.prototype.canRemoveImage=function(thing) {
         return Authz.isOrganizer(thing) || Authz.isAdmin();
     };
+
+    ThingsAuthz.prototype.canAddType=function(thing) {
+        return Authz.isOrganizer(thing);
+    };
+    ThingsAuthz.prototype.canUpdateType=function(thing) {
+        return Authz.isOrganizer(thing)
+    };
+    ThingsAuthz.prototype.canRemoveType=function(thing) {
+        return Authz.isOrganizer(thing) || Authz.isAdmin();
+    };
     
     return new ThingsAuthz();
   }

@@ -39,6 +39,26 @@ class ThingPolicy < ApplicationPolicy
     organizer_or_admin?
   end
 
+  def get_type_linkables?
+    @user
+  end
+
+  def get_types?
+    @user
+  end
+
+  def add_type?
+    organizer?
+  end
+
+  def update_type?
+    organizer?
+  end
+
+  def remove_type?
+    organizer_or_admin?
+  end
+
   class Scope < Scope
     def user_roles members_only=true, allow_admin=true
       include_admin=allow_admin && @user && @user.is_admin?
@@ -52,6 +72,15 @@ class ThingPolicy < ApplicationPolicy
              if members_only
                s.where("r.role_name"=>[Role::ORGANIZER, Role::MEMBER])
              end}
+    end
+    def user_roles2
+      member_join = "join"
+      joins_clause=["#{member_join} Roles r on r.mname='Thing'",
+                    "r.mid=Things.id",
+                    "r.user_id #{user_criteria}",
+                    "r.role_name='#{Role::ORGANIZER}'"].join(" and ")
+      scope.select("Things.*, r.role_name")
+           .joins(joins_clause)
     end
     def resolve
       user_roles 

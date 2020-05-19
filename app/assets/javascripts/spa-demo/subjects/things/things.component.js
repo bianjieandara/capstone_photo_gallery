@@ -36,16 +36,19 @@
                                    "$state","$stateParams",
                                    "spa-demo.authz.Authz",
                                    "spa-demo.subjects.Thing",
-                                   "spa-demo.subjects.ThingImage"];
+                                   "spa-demo.subjects.ThingImage",
+                                   "spa-demo.subjects.ThingType"];
   function ThingEditorController($scope, $q, $state, $stateParams, 
-                                 Authz, Thing, ThingImage) {
+                                 Authz, Thing, ThingImage, ThingType) {
     var vm=this;
     vm.create = create;
     vm.clear  = clear;
     vm.update  = update;
     vm.remove  = remove;
     vm.haveDirtyLinks = haveDirtyLinks;
+    vm.haveDirtyTypes = haveDirtyTypes;
     vm.updateImageLinks = updateImageLinks;
+    vm.updateTypeLinks = updateTypeLinks;
 
     vm.$onInit = function() {
       console.log("ThingEditorController",$scope);
@@ -71,6 +74,7 @@
       var itemId = thingId ? thingId : vm.item.id;      
       console.log("re/loading thing", itemId);
       vm.images = ThingImage.query({thing_id:itemId});
+      vm.types = ThingType.query({thing_id:itemId});
       vm.item = Thing.get({id:itemId});
       vm.thingsAuthz.newItem(vm.item);
       vm.images.$promise.then(
@@ -79,12 +83,21 @@
             ti.originalPriority = ti.priority;            
           });                     
         });
-      $q.all([vm.item.$promise,vm.images.$promise]).catch(handleError);
+      $q.all([vm.item.$promise,vm.images.$promise,vm.types.$promise]).catch(handleError);
     }
     function haveDirtyLinks() {
       for (var i=0; vm.images && i<vm.images.length; i++) {
         var ti=vm.images[i];
         if (ti.toRemove || ti.originalPriority != ti.priority) {
+          return true;
+        }        
+      }
+      return false;
+    }
+    function haveDirtyTypes() {
+      for (var i=0; vm.types && i<vm.types.length; i++) {
+        var ti=vm.types[i];
+        if (ti.toRemove) {
           return true;
         }        
       }
@@ -110,6 +123,7 @@
       vm.item.errors = null;
       var update=vm.item.$update();
       updateImageLinks(update);
+      updateTypeLinks(update);
     }
     function updateImageLinks(promise) {
       console.log("updating links to images");
@@ -120,6 +134,27 @@
           promises.push(ti.$remove());
         } else if (ti.originalPriority != ti.priority) {          
           promises.push(ti.$update());
+        }
+      });
+
+      console.log("waiting for promises", promises);
+      $q.all(promises).then(
+        function(response){
+          console.log("promise.all response", response); 
+          //update button will be disabled when not $dirty
+          $scope.thingform.$setPristine();
+          reload(); 
+        }, 
+        handleError);    
+    }
+
+    function updateTypeLinks(promise) {
+      console.log("updating links to types");
+      var promises = [];
+      if (promise) { promises.push(promise); }
+      angular.forEach(vm.types, function(ti){
+        if (ti.toRemove) {
+          promises.push(ti.$remove());
         }
       });
 
