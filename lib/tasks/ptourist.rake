@@ -5,6 +5,9 @@ namespace :ptourist do
   BOYS=["greg","peter","bobby"]
   GIRLS=["marsha","jan","cindy"]
 
+DatabaseCleaner.allow_production = true
+DatabaseCleaner.allow_remote_database_url = true
+
   def user_name first_name
     last_name = (first_name=="alice") ? "nelson" : "brady"
     case first_name

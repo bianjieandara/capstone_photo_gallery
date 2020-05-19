@@ -5,6 +5,8 @@ shared_context "db_cleanup" do |ar_strategy=:truncation|
     DatabaseCleaner[:mongoid].strategy = :truncation
     DatabaseCleaner[:active_record].strategy = ar_strategy
     DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.allow_production = true
+    DatabaseCleaner.allow_remote_database_url = true
   end
   after(:each, :type=>feature) do
     Capybara.reset_sessions!  #cleared up some random failures
