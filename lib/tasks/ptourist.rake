@@ -4,7 +4,11 @@ namespace :ptourist do
   ORIGINATORS=["carol","alice"]
   BOYS=["greg","peter","bobby"]
   GIRLS=["marsha","jan","cindy"]
-  BASE_URL="http://dev9.jhuep.com/fullstack-capstone"
+  BASE_URL="https://dev9.jhuep.com/fullstack-capstone"
+  USERS_IMGS=["https://content.thriveglobal.com/wp-content/uploads/2018/11/Flower.jpg","https://www.interflora.co.uk/blog/blgcnt/uploads/sites/2/2018/05/InfloPR030416-7V4A0828.jpeg"]
+
+  DatabaseCleaner.allow_production = true
+DatabaseCleaner.allow_remote_database_url = true
 
   def user_name first_name
     last_name = (first_name=="alice") ? "nelson" : "brady"
@@ -67,6 +71,19 @@ namespace :ptourist do
     ImageContentCreator.new(img[:image], original_content).build_contents.save!
   end
 
+    def create_user_image user, url
+    puts "building user image for #{user.name}"
+    image=Image.create(:creator_id=>user.id)
+    user.add_role(Role::ORGANIZER, image).save
+    user.image_id = image.id
+    user.save
+    contents = open(url,{ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
+    original_content=ImageContent.new(:image_id=>image.id,
+                                      :content_type=>"image/jpeg", 
+                                      :content=>BSON::Binary.new(contents))
+    ImageContentCreator.new(image, original_content).build_contents.save!
+  end
+
   def create_thing thing, organizer, members, images
     thing=Thing.create!(thing)
     organizer.add_role(Role::ORGANIZER, thing).save
@@ -117,11 +134,13 @@ namespace :ptourist do
                  :password => "password#{idx}")
     end
 
-    admin_users.each do |user|
+    admin_users.each_with_index do |user,idx|
+      create_user_image user, USERS_IMGS[idx]
       user.roles.create(:role_name=>Role::ADMIN)
     end
 
     originator_users.each do |user|
+
       user.add_role(Role::ORIGINATOR, Thing).save
     end
 

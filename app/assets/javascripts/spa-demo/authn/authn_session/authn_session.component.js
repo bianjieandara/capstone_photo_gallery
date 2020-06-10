@@ -14,8 +14,8 @@
     return APP_CONFIG.authn_session_html;
   }    
 
-  AuthnSessionController.$inject = ["$scope","spa-demo.authn.Authn"];
-  function AuthnSessionController($scope, Authn) {
+  AuthnSessionController.$inject = ["$scope","spa-demo.authn.Authn","spa-demo.authn.whoAmI"];
+  function AuthnSessionController($scope, Authn,whoAmI) {
     var vm=this;
     vm.loginForm = {}
     vm.login = login;
@@ -25,6 +25,9 @@
 
     vm.$onInit = function() {
       console.log("AuthnSessionController",$scope);
+      whoAmI.get().$promise.then(
+          function(value){ vm.whoAmI = value; }
+        );  
     }
     vm.$postLink = function() {
       vm.dropdown = $("#login-dropdown")
@@ -48,7 +51,9 @@
         function(){
           vm.dropdown.removeClass("open");
         });
-    }    
+    } 
+
+       
 
   }
 })();

@@ -9,7 +9,7 @@ class ImagesController < ApplicationController
 
   def index
     authorize Image
-    @images = policy_scope(Image.all)
+    @images = policy_scope(Image.joins('LEFT OUTER JOIN users ON users.image_id = images.id').where('users.image_id IS NULL'))
     @images = ImagePolicy.merge(@images)
   end
 
@@ -34,21 +34,49 @@ class ImagesController < ApplicationController
     end
   end
 
+  def user_image
+    @image = Image.new(image_params)
+    @image.creator_id=current_user.id
+    User.transaction do
+      if @image.save
+          user_image = ImageContent.new(image_content_params)
+          contents = ImageContentCreator.new(@image, user_image).build_contents([ImageContent::THUMBNAIL, ImageContent::LARGE])
+          contents.save!
+          head :no_content
+      else
+        render json: {errors:@image.errors.messages}, status: :unprocessable_entity
+      end
+    end
+  end
+
   def create
     authorize Image
     @image = Image.new(image_params)
     @image.creator_id=current_user.id
-
     User.transaction do
       if @image.save
         original=ImageContent.new(image_content_params)
-        contents=ImageContentCreator.new(@image, original).build_contents
+        if !@image.caption.nil? && @image.caption.include?("profile")
+          puts "profile image"
+          contents = ImageContentCreator.new(@image, original).build_contents([ImageContent::THUMBNAIL, ImageContent::LARGE])
+          if (contents.save!) 
+          role=current_user.add_role(Role::ORGANIZER, @image)
+          @image.user_roles << role.role_name
+          current_user.image_id = @image.id
+          current_user.save!
+          role.save!
+          head :no_content
+          end          
+        else
+          contents=ImageContentCreator.new(@image, original).build_contents
         if (contents.save!) 
           role=current_user.add_role(Role::ORGANIZER, @image)
           @image.user_roles << role.role_name
           role.save!
           render :show, status: :created, location: @image
         end
+
+        end          
       else
         render json: {errors:@image.errors.messages}, status: :unprocessable_entity
       end

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :thing_images, only: [:index, :create, :update, :destroy]
     end
     get "images/:id/content", as: :image_content, controller: :images, action: :content, defaults:{format: :jpg}
+    post "user_image", controller: :images, action: :user_image
   end      
 
   get "/client-assets/:name.:format", :to => redirect("/client/client-assets/%{name}.%{format}")

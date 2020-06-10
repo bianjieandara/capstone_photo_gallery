@@ -15,7 +15,6 @@
     ////////////////
     function getContentFromDataUri(dataUri) {
       if (!dataUri) { return null; }
-
       //data:image/jpeg;base64,SGVsbG8sIFdvcmxkIQ%3D%3D
       var splitDataUri = dataUri.split(',');
       if (splitDataUri.length < 2 || splitDataUri[0].indexOf(';base64')<0) {

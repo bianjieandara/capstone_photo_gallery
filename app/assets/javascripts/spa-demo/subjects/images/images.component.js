@@ -111,7 +111,7 @@
     }
 
     function setImageContent(dataUri) {
-      console.log("setImageContent", dataUri ? dataUri.length : null);      
+      console.log("setImageContent", dataUri ? dataUri : null);      
       vm.item.image_content = DataUtils.getContentFromDataUri(dataUri);
     }    
 

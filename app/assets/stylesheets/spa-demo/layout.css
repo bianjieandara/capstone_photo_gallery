@@ -20,6 +20,7 @@ form .invalid {
 .nav li form {
   padding-left: 10px; /* adds spacing along left of dropdown menu form */
   padding-right: 10px;
+  text-align: center;
 }
 
 [readonly='readonly'] {

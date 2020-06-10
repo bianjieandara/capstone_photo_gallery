@@ -2,6 +2,17 @@
   <span class="invalid"
         ng-hide="signup_form.$dirty">{{$ctrl.signupForm.errors.full_messages}}</span>
 
+   <div class="image-content row col-lg-12">
+    <label class="col-xs-3"></label>
+    <div class="col-xs-9 ">
+      <sd-image-loader class="image-select" result-data-uri="$ctrl.setImageContent(dataUri)">
+          <span class="invalid" ng-show="signupForm['image-file'].$error.maxSize"> image size is too large (max=10MB)</span>          
+      </sd-image-loader>      
+      <span class="invalid">{{$ctrl.item.errors.content_type}}</span>
+      <span class="invalid">{{$ctrl.item.errors.content}} </span> 
+    </div>
+  </div>
+
   <div id="signup-email" class="row col-lg-12">
     <label class="col-xs-3">email</label>
     <input class="col-xs-9"

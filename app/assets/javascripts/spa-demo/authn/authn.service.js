@@ -5,8 +5,8 @@
     .module("spa-demo.authn")
     .service("spa-demo.authn.Authn", Authn);
 
-  Authn.$inject = ["$auth","$q"];
-  function Authn($auth, $q) {
+  Authn.$inject = ["$auth","$q","spa-demo.authn.whoAmI"];
+  function Authn($auth, $q, whoAmI) {
     var service = this;
     service.signup = signup;
     service.user = null;
