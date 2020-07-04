@@ -17,7 +17,7 @@ class ThingImage < ActiveRecord::Base
   scope :with_name,    ->{ with_thing.select("things.name as thing_name")}
   scope :with_caption, ->{ with_image.select("images.caption as image_caption")}
   scope :with_position,->{ with_image.select("images.lng, images.lat")}
-  scope :within_range, ->(origin, limit=nil, reverse=nil) {
+  scope :within_range, ->(origin, limit=nil, reverse=nil ) {
     scope=with_position
     scope=scope.within(limit,:origin=>origin)                   if limit
     scope=scope.by_distance(:origin=>origin, :reverse=>reverse) unless reverse.nil?

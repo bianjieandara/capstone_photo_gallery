@@ -1,12 +1,34 @@
 <div class="image-list" ng-show="$ctrl.authz.canQuery">
+    <span ng-show="$ctrl.items && $ctrl.getOrigin() && !$ctrl.getDistance()">Images near {{$ctrl.getOriginAddress()}}:</span>
+  <span ng-show="$ctrl.items && $ctrl.getOrigin() && $ctrl.getDistance()">Images within {{$ctrl.getDistance()}} mile(s) from {{$ctrl.getOriginAddress()}}:</span>
+  <br/>
+  <button name="select-all"
+          type="submit"
+          ng-click="$ctrl.selectAll()"
+          ng-show="$ctrl.items">Select All</button>
+  <button name="deselect-all"
+          type="submit"
+          ng-click="$ctrl.deselectAll()"
+          ng-show="$ctrl.items">Deselect All</button>
+  <button name="filter"
+          type="submit"
+          ng-click="$ctrl.filter()"
+          ng-show="$ctrl.items">Exclude Images</button>
+  <button name="show-all"
+          type="submit"
+          ng-click="$ctrl.showAll()"
+          ng-show="$ctrl.items">Clear</button>
   <ul>
-    <li ng-repeat="item in $ctrl.items | orderBy:'caption'">
+    <li ng-repeat="item in $ctrl.items | orderBy:['distance', 'caption']">
+      <input type="checkbox"
+             name="item-select"
+         ng-model="item.selected">
       <a ui-sref="images({id:item.id})">
-          <span class="image_id id">{{item.id}}</span>                    
-          <img style="width: 50px; height: 33px" 
-                 ng-src="{{item.content_url}}?width=50"/>
-          {{item.caption}}
-      <span ng-show="$ctrl.authz.canUpdateItem(item)"> *</span>
+          <span class="image_id id">{{item.id}}</span>
+          <img style="width: 50px; height: 33px"
+              ng-src="{{item.content_url}}?width=50"/>
+          {{item.caption}} <span ng-show="$ctrl.getOrigin()">({{item.distance}} miles away)</span>
+       <span ng-show="$ctrl.authz.canUpdateItem(item)"> *</span>
       </a>
     </li>
   </ul>

@@ -4,13 +4,16 @@ class ImagesController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :destroy]
   after_action :verify_authorized, except: [:content]
   after_action :verify_policy_scoped, only: [:index]
+  before_action :origin, only: [:index]
 
   rescue_from EXIFR::MalformedJPEG, with: :contents_error
 
   def index
     authorize Image
-    @images = policy_scope(Image.all)
-    @images = ImagePolicy.merge(@images)
+    scope = Image.within_exclude(@origin,@limit,@exclude)
+    @images = policy_scope(scope) 
+    @images = Image.with_distance(@origin, @images) if @origin   
+    @images = ImagePolicy.merge(@images)  
   end
 
   def show
@@ -83,11 +86,21 @@ class ImagesController < ApplicationController
       params.require(:image).permit(:caption,:position=>[:lng,:lat])
     end
 
+    def query_params
+      params.permit(:lng,:lat,:exclude)
+    end
+
     def image_content_params
       params.require(:image_content).tap { |ic|
         ic.require(:content_type)
         ic.require(:content)
       }.permit(:content_type, :content)
+    end
+
+    def origin
+      @origin = params[:lng] && params[:lat] ? Point.new(params[:lng].to_f, params[:lat].to_f) : nil
+      @limit = params[:limit] ? params[:limit].to_f : nil
+      @exclude = params[:exclude] ? params[:exclude] : nil
     end
 
     def contents_error exception

@@ -4,7 +4,10 @@ namespace :ptourist do
   ORIGINATORS=["carol","alice"]
   BOYS=["greg","peter","bobby"]
   GIRLS=["marsha","jan","cindy"]
-  BASE_URL="http://dev9.jhuep.com/fullstack-capstone"
+  BASE_URL="https://dev9.jhuep.com/fullstack-capstone"
+
+  DatabaseCleaner.allow_production = true
+  DatabaseCleaner.allow_remote_database_url = true
 
   def user_name first_name
     last_name = (first_name=="alice") ? "nelson" : "brady"

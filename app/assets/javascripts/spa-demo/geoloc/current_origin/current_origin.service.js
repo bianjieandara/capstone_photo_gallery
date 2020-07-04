@@ -15,6 +15,14 @@
     return;
     ////////////////
   }
+  CurrentOrigin.prototype.getLatitude = function() {
+    return this.location && this.location.position ?
+      angular.copy(this.location.position.lat) : null;
+  }
+  CurrentOrigin.prototype.getLongitude = function() {
+    return this.location && this.location.position ?
+      angular.copy(this.location.position.lng) : null;
+  }
   CurrentOrigin.prototype.getVersion = function() {
     return this.version;
   }  
@@ -51,3 +59,7 @@
     return this.distance;
   }
 })();
+
+
+
+

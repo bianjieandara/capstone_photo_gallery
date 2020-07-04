@@ -34,21 +34,96 @@
   ImageSelectorController.$inject = ["$scope",
                                      "$stateParams",
                                      "spa-demo.authz.Authz",
-                                     "spa-demo.subjects.Image"];
-  function ImageSelectorController($scope, $stateParams, Authz, Image) {
-    var vm=this;
+                                     "spa-demo.subjects.Image","spa-demo.geoloc.currentOrigin"];
+  function ImageSelectorController($scope, $stateParams, Authz, Image, currentOrigin) {
+var vm=this;
+    vm.getOrigin = getOrigin;
+    vm.getOriginAddress = getOriginAddress;
+    vm.getDistance = getDistance;
+    vm.selectAll = selectAll;
+    vm.deselectAll = deselectAll;
+    vm.filter = filter;
+    vm.showAll = showAll;
 
     vm.$onInit = function() {
       console.log("ImageSelectorController",$scope);
-      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); }, 
-                    function(){ 
-                      if (!$stateParams.id) { 
-                        vm.items = Image.query(); 
-                      }
-                    });
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); },
+                    loadItems );
+      $scope.$watch(function(){ return currentOrigin.getLocation(); },
+                    loadItems );
+      $scope.$watch(function(){ return currentOrigin.getDistance(); },
+                    loadItems );
     }
     return;
     //////////////
+
+    function loadItems() {
+      var queryParams = {};
+      loadItemsWithParams(queryParams);
+    }
+
+    function loadItemsSelected(selectedImages) {
+      if(selectedImages.length==0) {
+        vm.items = [];
+      }
+      else {
+        var queryParams = {};
+        queryParams["exclude[]"] = selectedImages;
+        loadItemsWithParams(queryParams);
+      }
+    }
+
+    function loadItemsWithParams(queryParams) {
+      if (!$stateParams.id) {
+        if(getOrigin()) {
+          queryParams["lng"] = currentOrigin.getPosition().lng.toString();
+          queryParams["lat"] = currentOrigin.getPosition().lat.toString();
+          if(getDistance()) {
+            queryParams["limit"] = currentOrigin.getDistance().toString();
+          }
+        }
+        console.log(queryParams);
+        vm.items = Image.query(queryParams);
+      }
+    }
+
+    function getOrigin() {
+      return currentOrigin.getLocation();
+    }
+
+    function getOriginAddress() {
+      return currentOrigin.getFormattedAddress();
+    }
+
+    function getDistance() {
+      return currentOrigin.getDistance();
+    }
+
+    function selectAll() {
+      for (var i=0; vm.items && i<vm.items.length; i++) {
+        vm.items[i].selected = true;
+      }
+    }
+
+    function deselectAll() {
+      for (var i=0; vm.items && i<vm.items.length; i++) {
+        vm.items[i].selected = false;
+      }
+    }
+
+    function filter() {
+      var selectedImages = [];
+      for (var i=0; vm.items && i<vm.items.length; i++) {
+        if(vm.items[i].selected) {
+          selectedImages.push(vm.items[i].id);
+        }
+      }
+      loadItemsSelected(selectedImages);
+    }
+
+    function showAll() {
+      loadItems();
+    }
   }
 
 
