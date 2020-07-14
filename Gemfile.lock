@@ -88,7 +88,6 @@ GEM
       railties (>= 3.0.0)
     faker (1.9.6)
       i18n (>= 0.7)
-    ffi (1.13.1)
     ffi (1.13.1-x86-mingw32)
     geokit (1.13.1)
     geokit-rails (2.3.1)
@@ -133,13 +132,10 @@ GEM
       rake
       rspec (~> 3.3)
     multi_xml (0.6.0)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
     nokogiri (1.10.10-x86-mingw32)
       mini_portile2 (~> 2.4.0)
     origin (2.3.1)
     orm_adapter (0.5.0)
-    pg (0.19.0)
     pg (0.19.0-x86-mingw32)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
@@ -151,7 +147,6 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.5)
-    puma (3.12.6)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (1.6.13)
@@ -284,7 +279,6 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  ruby
   x86-mingw32
 
 DEPENDENCIES
