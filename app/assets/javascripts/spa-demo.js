@@ -44,6 +44,7 @@
 
 //= require spa-demo/layout/tabs/tabs.component
 //= require spa-demo/layout/areas/areas.component
+//= require spa-demo/layout/zones/zones.component
 
 //= require spa-demo/foos/foos.module
 //= require spa-demo/foos/foos.service
@@ -66,3 +67,8 @@
 //= require spa-demo/subjects/current_subjects/current_subjects.service
 //= require spa-demo/subjects/current_images/current_images.component
 //= require spa-demo/subjects/current_things/current_things.component
+
+
+//= require spa-demo/subjects/topics/topics.service
+//= require spa-demo/subjects/topics/topics_images.component
+//= require spa-demo/subjects/topics/topics_things.component

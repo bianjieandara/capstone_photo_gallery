@@ -5,11 +5,11 @@
     .module("spa-demo.subjects")
     .component("sdCurrentThings", {
       templateUrl: thingsTemplateUrl,
-      controller: CurrentThingsController,
+      controller: ThingsController,
     })
     .component("sdCurrentThingInfo", {
       templateUrl: thingInfoTemplateUrl,
-      controller: CurrentThingInfoController,
+      controller: ThingInfoController,
     })
     ;
 
@@ -22,9 +22,9 @@
     return APP_CONFIG.current_thing_info_html;
   }    
 
-  CurrentThingsController.$inject = ["$scope",
+  ThingsController.$inject = ["$scope",
                                      "spa-demo.subjects.currentSubjects"];
-  function CurrentThingsController($scope,currentSubjects) {
+  function ThingsController($scope,currentSubjects) {
     var vm=this;
     vm.thingClicked = thingClicked;
     vm.isCurrentThing = currentSubjects.isCurrentThingIndex;
@@ -45,11 +45,11 @@
     }    
   }
 
-  CurrentThingInfoController.$inject = ["$scope",
+  ThingInfoController.$inject = ["$scope",
                                         "spa-demo.subjects.currentSubjects",
                                         "spa-demo.subjects.Thing",
                                         "spa-demo.authz.Authz"];
-  function CurrentThingInfoController($scope,currentSubjects, Thing, Authz) {
+  function ThingInfoController($scope,currentSubjects, Thing, Authz) {
     var vm=this;
     vm.nextThing = currentSubjects.nextThing;
     vm.previousThing = currentSubjects.previousThing;
@@ -61,11 +61,7 @@
       $scope.$watch(
         function() { return currentSubjects.getCurrentThing(); }, 
         newThing 
-      );
-      $scope.$watch(
-        function() { return Authz.getAuthorizedUserId(); },
-        function() { newThing(currentSubjects.getCurrentThing()); }
-      );        
+      );      
     }    
     return;
     //////////////
@@ -76,12 +72,6 @@
         vm.thing=Thing.get({id:link.thing_id});
       }
     }
-
-
-
-
-
-
 
   }
 })();

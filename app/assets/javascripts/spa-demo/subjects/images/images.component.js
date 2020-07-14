@@ -52,7 +52,7 @@
   }
 
 
-  ImageEditorController.$inject = ["$scope","$q",
+  ImageEditorController.$inject = ["$rootScope","$scope","$q",
                                    "$state", "$stateParams",
                                    "spa-demo.authz.Authz",
                                    "spa-demo.layout.DataUtils",
@@ -61,7 +61,7 @@
                                    "spa-demo.subjects.ImageLinkableThing",
                                    "spa-demo.geoloc.geocoder",
                                    ];
-  function ImageEditorController($scope, $q, $state, $stateParams, 
+  function ImageEditorController($rootScope,$scope, $q, $state, $stateParams, 
                                  Authz, DataUtils, Image, ImageThing,ImageLinkableThing,
                                  geocoder) {
     var vm=this;

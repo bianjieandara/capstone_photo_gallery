@@ -103,8 +103,53 @@ div.areas-pane > ul.tab-label li a {
   line-height: 7px;
   font-size: 0.8em;
 } 
-/********************************/
 
+/*********** zones ********/
+div.zones-left, div.zones-right {
+  padding-left: 0;
+  padding-right: 0;
+}
+div.zone-pane {
+  position: relative;
+  border: 1px solid black;
+}
+div.zone-pane input[type='checkbox'] {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+div.zone-pane {
+  height: 93vh;
+  overflow-y: auto; 
+}
+
+div.zone-pane div ul {
+  margin-top: 5px;
+  padding-left: 5px;
+}
+div.zone-pane div ul span.id {
+  display: none;
+}
+div.zone-pane div ul img {
+  width: 50px;
+}
+div.zone-pane.expanded div ul img {
+  width: 100px;
+}
+
+div.zone-pane ul li.selected {
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: #e0e0d1;
+}
+
+
+div.zones-pane > ul.tab-label li a {
+  line-height: 7px;
+  font-size: 0.8em;
+} 
+/********************************/
 [readonly='readonly'] {
   background-color: inherit;
 }
