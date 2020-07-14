@@ -1,0 +1,10 @@
+<div class="thing-info">
+  <h4>{{$ctrl.thing.name}}</h4>
+  <span class="id thing_id">{{$ctrl.thing.id}}</span>
+  <p>
+    <div class="description">{{$ctrl.thing.description}}</div>
+  </p>
+  <p>
+     <img ng-show="$ctrl.showImage" ng-src="{{$ctrl.thing_image.image_content_url}}?width=400"/> 
+  </p>
+</div>

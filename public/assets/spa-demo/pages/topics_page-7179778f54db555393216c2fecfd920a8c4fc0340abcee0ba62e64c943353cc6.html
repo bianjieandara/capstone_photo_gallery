@@ -1,0 +1,21 @@
+<div class="topics-page col-xs-12">
+  <sd-zones sd-zones-side>
+    <div class="zones-left"
+         ng-hide="sideVM.isHidden('left')"
+         ng-class="sideVM.isHidden('right') ?'col-sm-12':'col-sm-6'">
+      <sd-zone label="Images"
+               position="left">
+        <sd-topics-images></sd-topics-images>
+      </sd-zone>
+    </div>
+    <div class="zones-right"
+         ng-hide="sideVM.isHidden('right')"
+         ng-class="sideVM.isHidden('left') ? 'col-sm-12':'col-sm-6'">
+      <sd-zone label="Things"
+               position="right">
+        <sd-topics-things></sd-topics-things>
+        <sd-topics-thing-info></sd-topics-thing-info>
+      </sd-zone>
+    </div> 
+  </sd-zones>
+</div>

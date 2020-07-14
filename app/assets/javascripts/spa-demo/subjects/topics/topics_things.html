@@ -1,0 +1,8 @@
+<div class="topics-things-pane">
+  <ul class="topics-things tab-label nav nav-pills" role="tablist">
+    <li ng-repeat="thing in $ctrl.things">
+      <a role="tab"
+         ng-click="$ctrl.thingClicked(thing.thing_id)">{{thing.thing_name}}</a>
+    </li>
+  </ul>
+</div>
