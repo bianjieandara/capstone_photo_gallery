@@ -18,7 +18,7 @@ gem 'jquery-rails', '~>4.2', '>=4.2.1'
 gem 'jbuilder', '~> 2.0', '>=2.6.0'
 
 group :development do
-  gem 'spring', '~>2.0', '>=2.0.0'
+  gem 'spring', '2.0.2'
 end
 
 group :development, :test do
@@ -33,8 +33,6 @@ group :development, :test do
   gem 'poltergeist', '~> 1.11', '>=1.11.0'
   gem 'selenium-webdriver', '~> 2.53', '>=2.53.4'
   gem 'chromedriver-helper', '~>1.0', '>=1.0.0'
-  gem 'launchy', '~>2.4', '>=2.4.3'
-  gem 'simplecov', '~>0', '>=0.12', :require=>false
 end
 
 group :production do
