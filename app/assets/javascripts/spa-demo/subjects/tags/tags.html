@@ -1,0 +1,20 @@
+<div class="tags-pane">
+  <ul class="tab-label nav nav-pills" role="tablist">
+    <li ng-repeat="tag in $ctrl.tags" 
+        ng-class="{active: tag.selected}">
+      <a role="tab"
+         ng-click="$ctrl.tagClicked(tag)">{{tag.name}}</a>
+    </li>
+  </ul>
+</div>
+<div class="things-pane">
+<ul class="items things">
+  <li ng-repeat="ti in $ctrl.things"
+      ng-class="{selected: $ctrl.isCurrentThing(ti.id)}">
+    <a ng-click="$ctrl.thingClicked(ti.id)">
+      <span class="id thing_id">{{ti.id}}</span>
+      <span class="name">{{ti.name}}</span> 
+    </a>
+  </li>
+</ul>
+</div>

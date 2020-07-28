@@ -22,9 +22,6 @@
                                         APP_CONFIG) {
     var vm=this;
 
-    vm.$onInit = function() {
-      console.log("CurrentSubjectsMapController",$scope);
-    }
     vm.$postLink = function() {
       var element = $element.find('div')[0];
       getLocation().then(

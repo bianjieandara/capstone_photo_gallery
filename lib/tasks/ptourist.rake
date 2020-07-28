@@ -4,7 +4,10 @@ namespace :ptourist do
   ORIGINATORS=["carol","alice"]
   BOYS=["greg","peter","bobby"]
   GIRLS=["marsha","jan","cindy"]
-  BASE_URL="http://dev9.jhuep.com/fullstack-capstone"
+  BASE_URL="https://dev9.jhuep.com/fullstack-capstone"
+
+  DatabaseCleaner.allow_production = true
+  DatabaseCleaner.allow_remote_database_url = true
 
   def user_name first_name
     last_name = (first_name=="alice") ? "nelson" : "brady"
@@ -369,8 +372,31 @@ Work up a sweat in our 24-hour StayFit Gym, which features Life Fitness® cardio
      }
     create_image organizer, image
 
+    {Tourism: [     
+      "Rent-A-Tour"    
+    ],
+    Taxi: [
+      "Baltimore Water Taxi"
+    ],
+    Museum: [
+      "B&O Railroad Museum"
+    ], 
+    Aquarium: [
+     "National Aquarium"
+    ],
+    Hotel: [
+      "Holiday Inn Timonium",
+      "Hyatt Place Baltimore"
+    ]}.each do |tag, things|
+      tag = Tag.create(name: tag);
+      things.each {|thing| tag.things << Thing.where(name: thing)}
+      tag.save!
+    end
+
+
     puts "#{Thing.count} things created and #{ThingImage.count("distinct thing_id")} with images"
     puts "#{Image.count} images created and #{ThingImage.count("distinct image_id")} for things"
+    puts "#{Tag.count} tags created"
   end
 
 end

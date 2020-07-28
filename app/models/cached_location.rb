@@ -16,8 +16,7 @@ class CachedLocation
         {name: "idx_loc_address",
          expire_after_seconds: 86400})
   index({lng:1, lat:1}, 
-        {name: "idx_loc_position",
-         expire_after_seconds: 86400})
+        {name: "idx_loc_position"})
 
   scope :by_address, ->(addr)  { where(:address=>normalize(addr)) }
   scope :by_position,->(point) { where(:lng=>round(point.lng),:lat=>round(point.lat)) }

@@ -12,7 +12,7 @@ class ThingImagesController < ApplicationController
 
   def index
     authorize @thing, :get_images?
-    @thing_images = @thing.thing_images.prioritized.with_caption
+    @thing_images = @thing.thing_images.prioritized.with_caption.with_position
   end
 
   def image_things

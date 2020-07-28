@@ -7,11 +7,17 @@ class CreateThingImages < ActiveRecord::Migration
       t.timestamps null: false
     end
 
+    create_table :tags do |t|
+      t.string :name
+      t.timestamps null: false
+    end  
+    
+
     create_table :things do |t|
       t.string :name, {null: false}
       t.text :description
       t.text :notes
-
+      t.references :tag, {index: true, foreign_key: true}
       t.timestamps null: false
     end
 
@@ -25,7 +31,8 @@ class CreateThingImages < ActiveRecord::Migration
     end
 
     add_index :images, :creator_id
-    add_index :things, :name
+    add_index :things, [:name,:tag_id]
+    add_index :tags, :name
     add_index :thing_images, [:image_id, :thing_id], unique:true
   end
 end

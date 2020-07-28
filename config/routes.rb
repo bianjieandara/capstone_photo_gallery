@@ -15,12 +15,18 @@ Rails.application.routes.draw do
     end
     resources :things, except: [:new, :edit] do
       resources :thing_images, only: [:index, :create, :update, :destroy]
+      get 'search', on: :collection
     end
+
+    resources :tags, only: [:index]   
+    
     get "images/:id/content", as: :image_content, controller: :images, action: :content, defaults:{format: :jpg}
     get 'geocoder/addresses' => "geocoder#addresses"
     get 'geocoder/positions' => "geocoder#positions"
     get 'subjects' => "thing_images#subjects"
-  end      
+  end
+
+    
 
   get "/client-assets/:name.:format", :to => redirect("/client/client-assets/%{name}.%{format}")
 #  get "/", :to => redirect("/client/index.html")
@@ -29,3 +35,4 @@ Rails.application.routes.draw do
   get '/ui#' => 'ui#index'
   root "ui#index"
 end
+ 
