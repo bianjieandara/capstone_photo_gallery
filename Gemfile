@@ -19,7 +19,7 @@ group :development, :test do
   gem 'tzinfo-data', :platforms=>[:mingw, :mswin, :x64_mingw, :jruby]
   gem 'sqlite3'
   gem 'byebug', '~>9.0', '>=9.0.6'
-  gem 'httparty', '~>0.14', '>=0.14.0'
+  gem 'httparty', '~>0.21'
   gem 'rspec-rails', '~> 3.5', '>=3.5.2'
 end
 
